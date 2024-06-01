@@ -90,7 +90,8 @@ func downloadChapter(url, output string, wg *sync.WaitGroup) {
 	}()
 	if err != nil {
 		fmt.Println("Error during download: ", err)
+	} else {
+		fmt.Printf("Downloaded %s\n", output)
 	}
-	fmt.Printf("Downloaded %s\n", output)
 	wg.Done()
 }
