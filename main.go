@@ -22,10 +22,17 @@ type Track struct {
 }
 
 func main() {
-	book := "04-cibola-burn"
+	book := os.Getenv("FOLDER_NAME")
+	if book == "" {
+		book = "book"
+	}
 	trackFile := filepath.Join(book, "tracks.json")
 	outputFolder := filepath.Join(book, "chapters")
-	host := "https://files02.tokybook.com/audio/"
+	host := os.Getenv("HOST")
+	if host == "" {
+		host = "https://files02.tokybook.com/audio/"
+	}
+
 	if err := downloadBook(trackFile, outputFolder, host); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -85,7 +92,7 @@ func downloadChapter(url, output string, wg *sync.WaitGroup) {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("Wrote %f MB\n", float64(bytesWritten) / (1 << 20))
+		fmt.Printf("Wrote %f MB\n", float64(bytesWritten)/(1<<20))
 		return nil
 	}()
 	if err != nil {
