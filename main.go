@@ -82,12 +82,16 @@ func downloadChapter(url, output string, wg *sync.WaitGroup) {
 		}
 		defer resp.Body.Close()
 
+		if !strings.HasSuffix(output, ".mp3") && !strings.HasSuffix(output, ".mp4") {
+			output += ".mp3"
+		}
+
 		file, err := os.Create(output)
 		if err != nil {
 			return err
 		}
 		defer file.Close()
-
+		
 		bytesWritten, err := io.Copy(file, resp.Body)
 		if err != nil {
 			return err
